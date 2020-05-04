@@ -12,7 +12,7 @@ npm install --save react-material-formio
 
 ## Usage
 
-```tsx
+```jsx
 import React, { Component } from 'react'
 
 import MyComponent from 'react-material-formio'
