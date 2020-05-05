@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { getRandomComponentId } from 'formiojs/utils/utils'
 import MaterialComponent from './Component'
 import {
   FormControl,
@@ -10,7 +9,7 @@ import {
 import TextFieldComponent from 'formiojs/components/textfield/TextField.js'
 
 const MaterialTextField = ({ instance }) => {
-  const id = getRandomComponentId()
+  const id = `${instance.id}-mat` 
   return (
     <MaterialComponent instance={instance}>
       {(onChange, onBlur, value, validity) => {

@@ -1,29 +1,32 @@
-import * as React from 'react'
 import FormioForm from 'formiojs/Form'
-import { useRef, useEffect } from 'react'
+import React, { createRef, PureComponent } from 'react'
 
-const FormComponent = ({ form, submission = {}, onChange }) => {
-  const element = useRef(null)
+class FormComponent extends PureComponent {
+  constructor(props) {
+    super(props)
 
-  useEffect(() => {
-    if (form) {
-      let renderer = new FormioForm()
-      renderer.instance = renderer.create('form')
-      renderer.instance.viewContainer = () => element.current
-      renderer.instance
-        .setForm(form)
-        .then(() => {
-          renderer.readyResolve(renderer.instance)
-        })
-        .catch(() => renderer.readyReject())
-      renderer.instance.submission = submission
-      if (onChange) {
-        renderer.instance.on('change', onChange)
-      }
+    this.element = createRef()
+  }
+
+  componentDidMount() {
+    let renderer = new FormioForm()
+    renderer.instance = renderer.create('form')
+    renderer.instance.viewContainer = () => this.element.current
+    renderer.instance
+      .setForm(this.props.form)
+      .then(() => {
+        renderer.readyResolve(renderer.instance)
+      })
+      .catch(() => renderer.readyReject())
+    renderer.instance.submission = this.props.submission
+    if (this.props.onChange) {
+      renderer.instance.on('change', this.props.onChange)
     }
-  })
+  }
 
-  return <div ref={element}></div>
+  render() {
+    return <div ref={this.element}></div>
+  }
 }
 
 export default FormComponent

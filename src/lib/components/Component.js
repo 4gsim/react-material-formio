@@ -24,7 +24,7 @@ const MaterialComponent = ({ instance, children }) => {
       val = instance.emptyValue
     }
     instance.updateValue(val, { modified: true })
-    setValue(val)
+    setValue(instance.dataValue)
   }
 
   function onBlur() {

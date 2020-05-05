@@ -10,20 +10,15 @@ export function getComponents() {
   for (const type of Object.keys(components)) {
     const CompClass = components[type]
     CompClass.prototype.render = function () {
-      if (this.materialComponent) {
-        return
-      }
       const viewContainer = this.parent
         ? this.parent.viewContainer()
         : this.viewContainer()
       if (!viewContainer) {
         return
       }
-
       this.materialComponent = React.createElement(
         CompClass.MaterialComponent,
-        { instance: this },
-        null
+        { instance: this }
       )
       ReactDOM.render(this.materialComponent, viewContainer)
     }
@@ -36,7 +31,7 @@ export function getComponents() {
           ? this.parent.viewContainer()
           : this.viewContainer()
         if (!viewContainer) {
-          return
+          return changed
         }
         ReactDOM.render(
           React.cloneElement(this.materialComponent, { instance: this }),
