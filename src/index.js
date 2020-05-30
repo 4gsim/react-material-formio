@@ -8,4 +8,3 @@ const Formio = require('formiojs/Formio').default
 })()
 
 export { default as Form } from './lib/Form'
-export { default as FormDialog } from './lib/FormDialog'

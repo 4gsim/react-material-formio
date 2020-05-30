@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { Input } from '@material-ui/core'
-import TextFieldComponent from 'formiojs/components/textfield/TextField.js'
+import TextAreaComponent from 'formiojs/components/textarea/TextArea.js'
 import MaterialField from './Field'
 
-const MaterialTextField = ({ instance }) => {
+const MaterialTextArea = ({ instance }) => {
   return (
     <MaterialField instance={instance}>
       {(id, value, onChange) => {
@@ -14,6 +14,9 @@ const MaterialTextField = ({ instance }) => {
         return (
           <Input
             id={id}
+            multiline={true}
+            rows={instance.component.rows}
+            rowsMax={instance.component.rows}
             value={value}
             onChange={handleChange}
             aria-describedby={`${id}-error`}
@@ -24,5 +27,9 @@ const MaterialTextField = ({ instance }) => {
   )
 }
 
-TextFieldComponent.MaterialComponent = MaterialTextField
-export { TextFieldComponent }
+TextAreaComponent.prototype.removeBlanks = function (value) {
+  return value
+}
+
+TextAreaComponent.MaterialComponent = MaterialTextArea
+export { TextAreaComponent }

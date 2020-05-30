@@ -1,7 +1,7 @@
 {
   "name": "react-material-formio-example",
   "homepage": "https://4gsim.github.io/react-material-formio",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.9.12",

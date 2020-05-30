@@ -6,14 +6,15 @@ import {
   DialogActions,
   Button
 } from '@material-ui/core'
-import FormComponent from './Form'
+import { Form } from 'react-material-formio'
 
 class FormDialog extends PureComponent {
   constructor(props) {
     super(props)
 
     this.state = {
-      submission: props.submission || {
+      isValid: true,
+      submission: {
         data: {}
       }
     }
@@ -23,34 +24,42 @@ class FormDialog extends PureComponent {
   }
 
   handleSubmit() {
-    this.props.onSubmit(this.state.submission)
+    if (this.state.submission.isValid) {
+      this.props.onSubmit(this.state.submission)
+    }
   }
 
   onChange(change) {
     if (change.changed) {
-      // don't trigger a render when submission changes, the actual view is changed in the form
-      let state = this.state
-      state.submission = change
-      this.setState(state)
+      console.log(change)
+      this.setState((s) => ({
+        ...s,
+        isValid: change.isValid,
+        submission: change
+      }))
     }
   }
 
   render() {
     return (
-      <Dialog open={this.props.open}>
+      <Dialog disableEnforceFocus open={this.props.open}>
         <DialogTitle>{this.props.form.title}</DialogTitle>
         <DialogContent>
-          <FormComponent
+          <Form
             form={this.props.form}
             submission={this.props.submission}
             onChange={this.onChange}
-          ></FormComponent>
+          ></Form>
         </DialogContent>
         <DialogActions>
           <Button onClick={this.props.onClose} color='primary'>
             Cancel
           </Button>
-          <Button onClick={this.handleSubmit} color='primary'>
+          <Button
+            disabled={!this.state.isValid}
+            onClick={this.handleSubmit}
+            color='primary'
+          >
             Submit
           </Button>
         </DialogActions>

@@ -4,36 +4,17 @@ import CardContent from '@material-ui/core/CardContent'
 
 const MaterialComponent = ({ instance, children }) => {
   const [value, setValue] = useState(instance.dataValue)
-  const [validity, setValidity] = useState({
-    isValid: true
-  })
-
-  instance.on('componentError', (error) => {
-    setValidity((v) => ({
-      ...v,
-      message: error.message
-    }))
-  })
 
   useEffect(() => {
-    setValue(instance.dataValue)
-  }, [instance.dataValue])
+    instance.setMaterialValue = setValue
+  }, [])
 
   function onChange(val) {
     if (val === undefined || val === null) {
       val = instance.emptyValue
     }
-    instance.updateValue(val, { modified: true })
+    instance.updateValue(val, { dirty: true, modified: true })
     setValue(instance.dataValue)
-  }
-
-  function onBlur() {
-    instance.checkComponentValidity(value, true, null, true).then((result) => {
-      setValidity((v) => ({
-        ...v,
-        isValid: result
-      }))
-    })
   }
 
   if (!children) {
@@ -43,7 +24,11 @@ const MaterialComponent = ({ instance, children }) => {
       </Card>
     )
   } else {
-    return <div>{children(onChange, onBlur, value, validity)}</div>
+    return (
+      <div style={{ marginBottom: '10px' }}>
+        {children(value, onChange)}
+      </div>
+    )
   }
 }
 
